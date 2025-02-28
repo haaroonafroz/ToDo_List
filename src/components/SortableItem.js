@@ -3,7 +3,7 @@ import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-export const SortableItem = (props) => {
+export const SortableItem = ({ id, disabled, children }) => {
   const { 
     attributes, 
     listeners, 
@@ -12,11 +12,10 @@ export const SortableItem = (props) => {
     transition,
     isDragging 
   } = useSortable({ 
-    id: props.id,
-    disabled: false // Ensure dragging is enabled
+    id: id,
+    disabled: disabled // Disable dragging during editing
   });
   
-  // Only apply the drag handle to the outer area but not to child inputs/buttons
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -33,9 +32,9 @@ export const SortableItem = (props) => {
       style={style} 
       {...attributes} 
       {...listeners}
-      className="sortable-item"
+      className={`sortable-item ${disabled ? 'drag-disabled' : ''}`}
     >
-      {props.children}
+      {children}
     </div>
   );
 };
